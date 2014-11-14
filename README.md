@@ -8,17 +8,17 @@ You can use the time capsule for the following things:
 Time Capsule will allow you to upload any file into a “capsule” and also let you  choose who else gets to upload files into your capsule.  You get to set the time when the capsule will be “buried,” and after this point, the capsule will be closed for uploading new content.  You can then set a time and place for it to be “unburied” and notify your friends and family by e-mail.  Then, you and your loved ones can view all the content of the time capsule and reminisce about the good old days.
 
 Base Features:
-	-Upload any file of any type into a capsule
-	-Grant access to your capsule to other users
-	-Navigate between capsules you have access to
-	-Set a date for your capsule to be buried
-	-Download any file from your capsule at any given time
+	* Upload any file of any type into a capsule
+	* Grant access to your capsule to other users
+	* Navigate between capsules you have access to
+	* Set a date for your capsule to be buried
+	* Download any file from your capsule at any given time
 
 
 Ideal (extra) Features:
-	-Embedded video viewer
-	-Embedded photo viewer
-	-Charge users money for virtual mementos (like roses)
-	-Allow users to take pictures directly from their web cameras
-	-Mobile app
+	* Embedded video viewer
+	* Embedded photo viewer
+	* Charge users money for virtual mementos (like roses)
+	* Allow users to take pictures directly from their web cameras
+	* Mobile app
 
