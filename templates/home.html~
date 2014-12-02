@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button type="button" onclick="alert('Hello world!')">Pack Capsule</button>
+<butotn type="button" onclick="alert('Hello world!')">Claim Capsule</butotn>
+ 
+</body>
+</html>
+
