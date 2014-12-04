@@ -1,5 +1,6 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, \
 render_template, flash
+from mongoaccess.MongoDAO import MongoDAO
 app = Flask(__name__)
 
 @app.route("/")
@@ -8,11 +9,12 @@ def hello():
 
 @app.route("/files",methods=['GET','POST'])
 def handleFiles():
-    if request.method == 'GET':
-        print 'Method was GET'
     if request.method == 'POST':
-        print 'Method was POST'
-        print 'There were '+str(len(request.files))+' files'
+        mongo = MongoDAO('localhost',27017)
+        identifier = request.form['CapsuleName']
+        password = request.form['CapsulePassword']
+        mongo.insertNewCapsule(identifier,password,request.files);
+        '''
         for fileName in request.files:
             print fileName
             currentFile = request.files[fileName]
@@ -20,7 +22,7 @@ def handleFiles():
                 for line in currentFile:
                     print line
             finally:
-                currentFile.close()
+                currentFile.close()'''
         return render_template('success.html')
     return render_template('files.html')
 
