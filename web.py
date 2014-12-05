@@ -1,11 +1,22 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, \
 render_template, flash
 from mongoaccess.MongoDAO import MongoDAO
+#import logging
+#logging.basicConfig(filename='example.log',level=logging.ERROR)
+#log = logging.getLogger('werkzeug')
+#log.setLevel(logging.ERROR)
+
+
 app = Flask(__name__)
 
 @app.route("/")
 def hello():
     return render_template('mainsite.html')
+
+@app.route("/fileDownload")
+def downloadFiles():
+    return render_template('mainsite.html')
+    
 
 @app.route("/files",methods=['GET','POST'])
 def handleFiles():
@@ -27,4 +38,4 @@ def handleFiles():
     return render_template('files.html')
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=False)
