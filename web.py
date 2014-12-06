@@ -1,6 +1,7 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-render_template, flash
+render_template, flash, send_file
 from mongoaccess.MongoDAO import MongoDAO
+from io import BytesIO
 #import logging
 #logging.basicConfig(filename='example.log',level=logging.ERROR)
 #log = logging.getLogger('werkzeug')
@@ -13,10 +14,18 @@ app = Flask(__name__)
 def hello():
     return render_template('mainsite.html')
 
-@app.route("/fileDownload")
+@app.route("/getcaps",methods=['GET','POST'])
 def downloadFiles():
-    return render_template('mainsite.html')
-    
+    if request.method == 'POST':
+        mongo = MongoDAO('localhost',27017)
+        identifier = request.form['CapsuleName']
+        password = request.form['CapsulePassword']
+        result = mongo.getCapsuleByIdentifier(identifier)
+        #print str(result)
+        files = result['files']
+        bytes = files[0]['fileData']
+        return send_file(BytesIO(bytes), attachment_filename=files[0]['fileName'], as_attachment=True)
+    return render_template('download.html')
 
 @app.route("/files",methods=['GET','POST'])
 def handleFiles():
