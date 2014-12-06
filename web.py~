@@ -14,6 +14,16 @@ app = Flask(__name__)
 def hello():
     return render_template('mainsite.html')
 
+@app.route("/home_redirect",methods=['GET'])
+def redirect():
+	print "At redirect"
+	return redirect(url_for('/files'))	
+	if request.form['submit'] == 'get_files':
+		print "get_files"
+		return redirect(url_for('/files'))
+	if request.form['submit'] == 'get_claims':
+		print "get_claims"		
+		return redirect(url_for('/claim'))
 
 @app.route("/getcaps",methods=['GET','POST'])
 def downloadFiles():
