@@ -1,7 +1,9 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-render_template, flash, send_file
+render_template, flash, send_file, Response
 from mongoaccess.MongoDAO import MongoDAO
 from io import BytesIO
+import glob, os, time
+import zipfile
 #import logging
 #logging.basicConfig(filename='example.log',level=logging.ERROR)
 #log = logging.getLogger('werkzeug')
@@ -20,11 +22,18 @@ def downloadFiles():
         mongo = MongoDAO('localhost',27017)
         identifier = request.form['CapsuleName']
         password = request.form['CapsulePassword']
-        result = mongo.getCapsuleByIdentifier(identifier)
-        #print str(result)
+        result = mongo.getCapsuleByIdentifier(identifier,password)
         files = result['files']
-        bytes = files[0]['fileData']
-        return send_file(BytesIO(bytes), attachment_filename=files[0]['fileName'], as_attachment=True)
+        memory_file = BytesIO()
+        with zipfile.ZipFile(memory_file, 'w') as zf:
+            files = result['files']
+            for individualFile in files:
+                data = zipfile.ZipInfo(individualFile['fileName'])
+                data.date_time = time.localtime(time.time())[:6]
+                data.compress_type = zipfile.ZIP_DEFLATED
+                zf.writestr(data, individualFile['fileData'])
+        memory_file.seek(0)
+        return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
     return render_template('download.html')
 
 @app.route("/files",methods=['GET','POST'])

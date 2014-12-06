@@ -8,10 +8,11 @@ class MongoDAO:
         self.db = self.client['timecapsule']
         self.capsules = self.db['Timecapsules']
 
-    def getCapsuleByIdentifier(self,identifier):
-        returnedCapsules = self.capsules.find({"identifier":identifier})
-        for capsule in self.capsules.find({"identifier":identifier}):
+    def getCapsuleByIdentifier(self,identifier, password):
+        returnedCapsules = self.capsules.find({"identifier":identifier,"password":password})
+        for capsule in returnedCapsules:
             return capsule
+        return None
 
     def insertNewCapsule(self, identifier, password, files):
         JSON = {}
