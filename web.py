@@ -16,17 +16,21 @@ def hello():
 
 
 @app.route("/getcaps",methods=['GET','POST'])
+def get_capsule_page():	
+	if request.method == 'POST':
+		return render_template('mainstie.html')
+   	return render_template('download.html')
+
+@app.route("/dlcap",methods=['POST'])
 def downloadFiles():
     if request.method == 'POST':
         mongo = MongoDAO('localhost',27017)
         identifier = request.form['CapsuleName']
         password = request.form['CapsulePassword']
         result = mongo.getCapsuleByIdentifier(identifier)
-        #print str(result)
         files = result['files']
         bytes = files[0]['fileData']
         return send_file(BytesIO(bytes), attachment_filename=files[0]['fileName'], as_attachment=True)
-    return render_template('download.html')
 
 @app.route("/files",methods=['GET','POST'])
 def handleFiles():

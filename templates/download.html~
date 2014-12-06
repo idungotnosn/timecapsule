@@ -12,7 +12,7 @@
 			
 		</div>
 		<form method="get" action="/">
-				<input type="image" id="myimage" src="{{ url_for('static', filename='arrow_left.png') }}" />
+				<input type="image" id="myimage" src="{{ url_for('static', filename='back.png') }}" />
 			</form>
 	</body>
 </html>

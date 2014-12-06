@@ -8,7 +8,7 @@
 			<form action="/files" action="GET">
   			<button type="submit" class="btn" name="submit" value="get_files">Pack Capsule</button>
 			</form>
-			<form action="/files" action="GET">
+			<form action="/getcaps" action="GET">
 			<button type="submit" class="btn" name="submit" value="get_claims">Claim Capsule</button>
 			</form>	
 		</div>
