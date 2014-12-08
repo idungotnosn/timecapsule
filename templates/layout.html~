@@ -1,13 +1,16 @@
 <!doctype html>
+
 <title>TimeCapsule_home</title>
-<link rel="stylesheet" type="text/css" href="capsule.css">
+<link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='capsule.css') }}">
 <body class="background_solid">
 	<div class="center">
 		<div class="vert_space">
-  			<button type="button" class="btn" onclick="alert('Hello world!')">Pack Capsule</button>	
-		</div>
-		<div class="vert_space">
-			<button type="button" class="btn"onclick="alert('Hello world!')">Claim Capsule</button>	
+			<form action="/files" action="GET">
+  			<button type="submit" class="btn" name="submit" value="get_files">Pack Capsule</button>
+			</form>
+			<form action="/getcaps" action="GET">
+			<button type="submit" class="btn" name="submit" value="get_claims">Claim Capsule</button>
+			</form>	
 		</div>
 	</div>
 </body>

@@ -11,8 +11,5 @@
     			<input class="btn" type="submit" value="Submit Capsule!"></input>
     		</form>
 		</div>
-		<form method="get" action="/">
-				<input type="image" id="myimage" src="{{ url_for('static', filename='arrow_left.png') }}" />
-			</form>
     	</body>
 </html>
