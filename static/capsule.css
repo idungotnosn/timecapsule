@@ -15,6 +15,11 @@
   	text-decoration: none;
 }
 
+
+.btn:disabled {
+    background: #B80000;
+} 
+
 .divider{
     width:5px;
     height:auto;
