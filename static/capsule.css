@@ -48,6 +48,14 @@ input[type="text"]
     font-size:20px;
 }
 
+.flist_font{
+	font-family:Arial;
+	color: #2980b9;
+	font-size: 12px;
+	padding: 4px 4px 4px 4px;
+  	text-decoration: none;
+}
+
 .font{
 	font-family:Arial;
 	color: #2980b9;

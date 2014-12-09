@@ -3,7 +3,7 @@
 		var input = document.getElementById('filesToUpload');
 		var list = document.getElementById('filelist');
 		for (var x = 0; x < input.files.length; x++) {
-			var html = "<li>"+ input.files[x].name + "</li>"
+			var html = "<li class=\"flist_font\">"+ input.files[x].name + "</li>"
 			list.innerHTML+=html;
 		}
 	}
@@ -18,7 +18,7 @@
 				<p class="form_font"> Password:</p>
    		 		<input type="Password" name="CapsulePassword" size="40"></input>
 				<div class="divider"></div>
-   	 		    <input name="filesToUpload[]" id="filesToUpload" type="file" multiple="" onchange="makeFileList()"/>
+   	 		    <input name="filesToUpload[]" id="filesToUpload" class="flist_font" type="file" multiple="" onchange="makeFileList()"/>
 				<ul name= "flist" id="filelist"></ul>
     			<input class="form_btn" type="submit" value="Submit Capsule!"></input>
     		</form>
