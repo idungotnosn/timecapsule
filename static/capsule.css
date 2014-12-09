@@ -26,6 +26,23 @@
     display:inline-block;
 }
 
+.list_btn{	
+	background: #34d96e;
+  	background-image: -webkit-linear-gradient(top, #34d96e, #2980b9);
+  	background-image: -moz-linear-gradient(top, #34d96e, #2980b9);
+  	background-image: -ms-linear-gradient(top, #34d96e, #2980b9);
+  	background-image: -o-linear-gradient(top, #34d96e, #2980b9);
+  	background-image: linear-gradient(to bottom, #34d96e, #2980b9);
+  	-webkit-border-radius: 28;
+  	-moz-border-radius: 28;
+  	border-radius: 10px;
+  	font-family: Arial;
+  	color: #ffffff;
+  	font-size: 12px;
+  	padding: 4px 4px 4px 4px;
+  	text-decoration: none;
+}
+
 .form_btn{	
 	background: #34d96e;
   	background-image: -webkit-linear-gradient(top, #34d96e, #2980b9);
@@ -78,6 +95,12 @@ input[type="text"]
 	background: #3cb0fd;
   	text-decoration: none;
 }
+
+.list_btn:hover {
+	background: #3cb0fd;
+  	text-decoration: none;
+}
+
 
 .vert_space{
    margin-bottom: 10px;
