@@ -4,7 +4,7 @@
 <body>
 	<div class="center">
 	<p class="font"> Login </p>
-	<form action="Place_Action_Here">
+    <form method="post" enctype="multipart/form-data">
 		<p class="font">Username: <input type="text" name="Username"><br></p>
 		<p class="font">Password: <input type="text" name="Password"><br></p>
 		<input type="submit" value="Submit" class="btn">

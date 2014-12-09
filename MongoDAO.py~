@@ -1,0 +1,6 @@
+import pymongo
+
+class MongoDAO:
+    def __init__(self, databaseInfo):
+        self.client = MongoClient('localhost',27017)
+        

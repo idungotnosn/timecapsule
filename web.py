@@ -1,5 +1,5 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-render_template, flash, send_file, Response
+render_template, flash, send_file, Response, make_response
 from mongoaccess.MongoDAO import MongoDAO
 from io import BytesIO
 from werkzeug.security import generate_password_hash, \
@@ -24,8 +24,19 @@ def login():
         username = request.form['Username']
         password = request.form['Password']
         mongo = MongoDAO('localhost',27017)
-        print mongo.checkUserInputs(username,password)
+        validPassword = mongo.checkUserInputs(username,password)
+        if validPassword:
+            resp = make_response(redirect('/files'))
+            resp.set_cookie('username',username)
+            return resp
+        else:
+            return render_template('login.html')
     return render_template('login.html')
+
+@app.route("/logout",methods=['GET'])
+def logout():
+    return 'Logging out'
+    
 
 @app.route("/signup",methods=['GET','POST'])
 def signup():
@@ -40,8 +51,9 @@ def signup():
         return render_template('signupsuccess.html')
     return render_template('signup.html')
 
-@app.route("/dlcap",methods=['POST'])
+@app.route("/dlcap",methods=['GET','POST'])
 def downloadFiles():
+    print request.cookies['username']
     if request.method == 'POST':
         mongo = MongoDAO('localhost',27017)
         identifier = request.form['CapsuleName']
@@ -64,20 +76,15 @@ def downloadFiles():
 @app.route("/files",methods=['GET','POST'])
 def handleFiles():
     if request.method == 'POST':
-        mongo = MongoDAO('localhost',27017)
-        identifier = request.form['CapsuleName']
-        password = request.form['CapsulePassword']
-        mongo.insertNewCapsule(identifier,password,request.files);
-        '''
-        for fileName in request.files:
-            print fileName
-            currentFile = request.files[fileName]
-            try:
-                for line in currentFile:
-                    print line
-            finally:
-                currentFile.close()'''
-        return render_template('success.html')
+        if 'username' in request.cookies.keys():
+            mongo = MongoDAO('localhost',27017)
+            identifier = request.form['CapsuleName']
+            password = request.form['CapsulePassword']
+            username = request.cookies['username']
+            mongo.insertNewCapsule(identifier,password,request.files, username);
+            return render_template('success.html')
+        else:
+            return redirect(url_for('login'))
     return render_template('files.html')
 
 if __name__ == "__main__":

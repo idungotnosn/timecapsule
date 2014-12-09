@@ -17,8 +17,9 @@ class MongoDAO:
             return capsule
         return None
 
-    def insertNewCapsule(self, identifier, password, files):
+    def insertNewCapsule(self, identifier, password, files, username):
         JSON = {}
+        JSON['username'] = username
         JSON['identifier'] = identifier
         JSON['password'] = password
         JSON['files'] = []
