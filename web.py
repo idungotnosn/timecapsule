@@ -6,11 +6,6 @@ from werkzeug.security import generate_password_hash, \
      check_password_hash
 import glob, os, time
 import zipfile
-#import logging
-#logging.basicConfig(filename='example.log',level=logging.ERROR)
-#log = logging.getLogger('werkzeug')
-#log.setLevel(logging.ERROR)
-
 
 app = Flask(__name__)
 
@@ -26,17 +21,20 @@ def login():
         mongo = MongoDAO('localhost',27017)
         validPassword = mongo.checkUserInputs(username,password)
         if validPassword:
-            resp = make_response(redirect('/files'))
-            resp.set_cookie('username',username)
-            return resp
+            if 'redirect' in request.cookies.keys() and request.cookies['redirect'] == 'files':
+                resp = make_response(redirect('/files'))
+                resp.set_cookie('username',username)
+                return resp
+            return render_template('mainsite.html')
         else:
             return render_template('login.html')
     return render_template('login.html')
 
 @app.route("/logout",methods=['GET'])
 def logout():
-    return 'Logging out'
-    
+    resp = make_response(render_template('logoutsuccess.html'))
+    resp.set_cookie('username', expires=0)
+    return resp  
 
 @app.route("/signup",methods=['GET','POST'])
 def signup():
@@ -48,6 +46,10 @@ def signup():
         if not mongo.userNameAvailable(username):
             return render_template('signupfailure.html')
         mongo.insertNewUser(email,username,unhashedPassword)
+        if 'redirect' in request.cookies.keys() and request.cookies['redirect'] == 'files':
+            resp = make_response(redirect('/files'))
+            resp.set_cookie('username',username)
+            return resp
         return render_template('signupsuccess.html')
     return render_template('signup.html')
 
@@ -81,10 +83,12 @@ def handleFiles():
             identifier = request.form['CapsuleName']
             password = request.form['CapsulePassword']
             username = request.cookies['username']
-            mongo.insertNewCapsule(identifier,password,request.files, username);
+            mongo.insertNewCapsule(identifier,password,request.files, username)
             return render_template('success.html')
         else:
-            return redirect(url_for('login'))
+            resp = make_response(redirect(url_for('login')))
+            resp.set_cookie('redirect','files')
+            return resp
     return render_template('files.html')
 
 if __name__ == "__main__":
