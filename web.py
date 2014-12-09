@@ -2,6 +2,8 @@ from flask import Flask, request, session, g, redirect, url_for, abort, \
 render_template, flash, send_file, Response
 from mongoaccess.MongoDAO import MongoDAO
 from io import BytesIO
+from werkzeug.security import generate_password_hash, \
+     check_password_hash
 import glob, os, time
 import zipfile
 #import logging
@@ -16,12 +18,27 @@ app = Flask(__name__)
 def hello():
     return render_template('mainsite.html')
 
+@app.route("/login",methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['Username']
+        password = request.form['Password']
+        mongo = MongoDAO('localhost',27017)
+        print mongo.checkUserInputs(username,password)
+    return render_template('login.html')
 
-@app.route("/getcaps",methods=['GET','POST'])
-def get_capsule_page():	
-	if request.method == 'POST':
-		return render_template('mainstie.html')
-   	return render_template('download.html')
+@app.route("/signup",methods=['GET','POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['Username']
+        unhashedPassword = request.form['Password']
+        email = request.form['Email']
+        mongo = MongoDAO('localhost',27017)
+        if not mongo.userNameAvailable(username):
+            return render_template('signupfailure.html')
+        mongo.insertNewUser(email,username,unhashedPassword)
+        return render_template('signupsuccess.html')
+    return render_template('signup.html')
 
 @app.route("/dlcap",methods=['POST'])
 def downloadFiles():

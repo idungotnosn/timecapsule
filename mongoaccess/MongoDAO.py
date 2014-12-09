@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 from bson.binary import Binary
+from werkzeug.security import generate_password_hash, \
+     check_password_hash
 import pickle
 
 class MongoDAO:
@@ -7,6 +9,7 @@ class MongoDAO:
         self.client = MongoClient(host,port)
         self.db = self.client['timecapsule']
         self.capsules = self.db['Timecapsules']
+        self.users = self.db['users']
 
     def getCapsuleByIdentifier(self,identifier, password):
         returnedCapsules = self.capsules.find({"identifier":identifier,"password":password})
@@ -31,6 +34,30 @@ class MongoDAO:
                 currentFile.close()
         #print JSON
         self.capsules.insert(JSON)
+
+    def insertNewUser(self, email, username, password):
+        JSON = {}
+        JSON['username'] = username
+        JSON['email'] = email
+        JSON['password'] = generate_password_hash(password)
+        self.users.insert(JSON)
+
+    def userNameAvailable(self, username):
+        users = self.users.find({"username":username})
+        for user in users:
+            return False
+        return True
+
+    def checkUserInputs(self, username, unhashedPassword):
+        users = self.users.find({"username":username})
+        foundUser = None
+        for user in users:
+            foundUser = user
+        if foundUser != None:
+            return check_password_hash(foundUser['password'],unhashedPassword)
+        else:
+            return False
+        
         
 if __name__ == "__main__":
     mongo = MongoDAO("localhost",27017)
