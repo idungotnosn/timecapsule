@@ -25,6 +25,10 @@ def login():
                 resp = make_response(redirect('/files'))
                 resp.set_cookie('username',username)
                 return resp
+            if 'redirect' in request.cookies.keys() and request.cookies['redirect'] == 'landing':
+                resp = make_response(redirect('/landing'))
+                resp.set_cookie('username',username)
+                return resp
             return render_template('mainsite.html')
         else:
             return render_template('login.html')
@@ -48,6 +52,10 @@ def signup():
         mongo.insertNewUser(email,username,unhashedPassword)
         if 'redirect' in request.cookies.keys() and request.cookies['redirect'] == 'files':
             resp = make_response(redirect('/files'))
+            resp.set_cookie('username',username)
+            return resp
+        if 'redirect' in request.cookies.keys() and request.cookies['redirect'] == 'landing':
+            resp = make_response(redirect('/landing'))
             resp.set_cookie('username',username)
             return resp
         return render_template('signupsuccess.html')
@@ -75,6 +83,14 @@ def downloadFiles():
             return 'No such capsule with that identifier/password exists'
     return render_template('download.html')
 
+@app.route("/landing",methods=['GET','POST'])
+def landing():
+    if 'username' in request.cookies.keys():
+        return render_template('landing.html')
+    else:
+        resp = make_response(redirect(url_for('login')))
+        resp.set_cookie('redirect','landing')
+        return resp
 
 @app.route("/files",methods=['GET','POST'])
 def handleFiles():
