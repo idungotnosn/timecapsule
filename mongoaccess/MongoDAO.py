@@ -23,8 +23,10 @@ class MongoDAO:
         JSON['identifier'] = identifier
         JSON['password'] = password
         JSON['files'] = []
-        for fileName in files:
-            currentFile = files[fileName]
+        fileList = files.getlist('filesToUpload[]')
+        print str(fileList)
+        for currentFile in fileList:
+            print 'File was '+str(currentFile)
             fileDict = {}
             try:
                 theBytes = currentFile.read()
@@ -33,7 +35,6 @@ class MongoDAO:
                 JSON['files'].append(fileDict)
             finally:
                 currentFile.close()
-        #print JSON
         self.capsules.insert(JSON)
 
     def insertNewUser(self, email, username, password):
