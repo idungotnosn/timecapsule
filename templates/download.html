@@ -4,9 +4,9 @@
 		<div class="center">
 			<form method="post" action="/dlcap" enctype="multipart/form-data">		
 				<p class="form_font"> Capsule Name:</p>
-				<input type="text" name="CapsuleName" size="40"></input>
+				<input type="text" name="CapsuleName" size="40" onkeyup="this.form.subbut.disabled = this.value=='' || this.form.CapsulePassword.value ='' "></input>
 				<p class="form_font"> Password:</p>
-				<input type="password" name="CapsulePassword" size="40"></input>
+				<input type="password" name="CapsulePassword" size="40" onkeyup="this.form.subbut.disabled = this.value=='' || this.form.CapsuleName.value ='' "></input>
 				<div class="divider"></div>
 				<button class ="form_btn" type="submit" name="submitButton">Get</input>			
 			</form>
