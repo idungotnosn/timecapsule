@@ -2,7 +2,6 @@
 	function makeFileList(){
 	var input = document.getElementById('filesToUpload');
 	var list = document.getElementById('filelist');
-	list.innerHTML=""
 	for (var x = 0; x < input.files.length; x++) {
 		var html = "<li>"+ input.files[x].name + "</li>"
 		list.innerHTML+=html;
