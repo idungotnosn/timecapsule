@@ -27,7 +27,7 @@ function post(path, params, method) {
 	<h1 class="font">Capsules you have with us</h1>
 	<ul>
 	{% for name in my_list %}
-        <li>{{name}} <input class="list_btn" type="button" value="Get Capsule" onclick="post('/contact/', {name: {{n}}})"></li>
+        <li class="flist_font">{{name}} <input class="list_btn" type="button" value="Get Capsule" onclick="post('/contact/', {name: {{n}}})"></li>
     {% endfor %}
 	</ul>
 	</div>
