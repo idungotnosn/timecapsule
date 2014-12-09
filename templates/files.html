@@ -1,27 +1,26 @@
 <script type="text/javascript">
 	function makeFileList(){
-	var input = document.getElementById('filesToUpload');
-	var list = document.getElementById('filelist');
-	for (var x = 0; x < input.files.length; x++) {
-		var html = "<li>"+ input.files[x].name + "</li>"
-		list.innerHTML+=html;
+		var input = document.getElementById('filesToUpload');
+		var list = document.getElementById('filelist');
+		for (var x = 0; x < input.files.length; x++) {
+			var html = "<li>"+ input.files[x].name + "</li>"
+			list.innerHTML+=html;
+		}
 	}
-}
-
 </script>
 <html>
     	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='capsule.css') }}">
     	<body class="background_solid">
 		<div class="center">
-    		<form method="post" enctype="multipart/form-data">
+    		<form method="post" enctype="multipart/form-data" onsubmit="return this.CapsuleName.value!='' && this.CapsulePassword.value!=''">
 				<p class="form_font"> Capsule Name:</p>
-    			<input type="Text" name="CapsuleName" size="40"></input>
+    			<input id="c_name" type="Text" name="CapsuleName" size="40" onkeyup="this.form.subbut.disabled = this.value=='' || this.form.CapsulePassword.value ='' "></input>
 				<p class="form_font"> Password:</p>
-   		 		<input type="Password" name="CapsulePassword" size="40"></input>
+   		 		<input type="Password" name="CapsulePassword" size="40" onkeyup="this.form.subbut.disabled = this.value=='' || this.form.CapsuleName.value ='' "></input>
 				<div class="divider"></div>
    	 		    <input name="filesToUpload[]" id="filesToUpload" type="file" multiple="" onchange="makeFileList()"/>
-				<ul id="filelist"></ul>
-    			<input class="form_btn" type="submit" value="Submit Capsule!"></input>
+				<ul name= "flist" id="filelist"></ul>
+    			<input class="form_btn" type="submit" value="Submit Capsule!" diabled="disabled"></input>
     		</form>
 		</div>
 		<form method="get" action="/">

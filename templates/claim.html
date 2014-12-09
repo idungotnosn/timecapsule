@@ -5,9 +5,9 @@
 	<div class="center">
 	<p class="font"> Claim your capsule! </p>
 	<form action="Place_Action_Here">
-		<p class="font">Capsule: <input type="text" name="Name"><br></p>
-		<p class="font">Passcode: <input type="text" name="Code"><br></p>
-		<input type="submit" value="Submit" class="btn">
+		<p class="font">Capsule: <input type="text" name="Name" onkeyup="this.form.subbut.disabled = this.value=='' || this.form.Code.value ='' "><br></p>
+		<p class="font">Passcode: <input type="text" name="Code" onkeyup="this.form.subbut.disabled = this.value=='' || this.form.Name.value ='' "><br></p>
+		<input type="submit" value="Submit" class="btn" diabled="disabled">
 	</form>
 	</div>
 </body>

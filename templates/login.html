@@ -5,9 +5,9 @@
 	<div class="center">
 	<p class="font"> Login </p>
     <form method="post" enctype="multipart/form-data">
-		<p class="font">Username: <input type="text" name="Username"><br></p>
-		<p class="font">Password: <input type="password" name="Password"><br></p>
-		<input type="submit" value="Submit" class="btn">
+		<p class="font">Username: <input type="text" name="Username" onkeyup="this.form.subbut.disabled = this.value=='' || this.form.Password.value ='' "><br></p>
+		<p class="font">Password: <input type="password" name="Password" onkeyup="this.form.subbut.disabled = this.value=='' || this.form.Username.value ='' "><br></p>
+		<input type="submit" value="Submit" class="btn" disabled="disabled">
 	</form>
     <p>Or you can <a href='signup'>sign up</a></p>
 	</div>
