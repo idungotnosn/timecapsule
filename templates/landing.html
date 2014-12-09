@@ -1,3 +1,33 @@
+<script>
+function post(path, params, method) {
+    method = method || "post";
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+}
+</script>
 <html>
-<h1>This is your landing page!</h1>
+<link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='capsule.css') }}">
+<body class="background_solid">
+	<h1 class="font">Capsules you have with us</h1>
+	<ul>
+	{% for name in my_list %}
+        <li>{{n}} <input class="form_btn" type="button" value="Get Capsule" onclick="post('/contact/', {name: {{n}}})"></li>
+    {% endfor %}
+	</ul>
+</body>
 </html>
