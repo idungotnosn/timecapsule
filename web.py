@@ -61,15 +61,18 @@ def downloadFiles():
         password = request.form['CapsulePassword']
         result = mongo.getCapsuleByIdentifier(identifier,password)
         memory_file = BytesIO()
-        with zipfile.ZipFile(memory_file, 'w') as zf:
-            files = result['files']
-            for individualFile in files:
-                data = zipfile.ZipInfo(individualFile['fileName'])
-                data.date_time = time.localtime(time.time())[:6]
-                data.compress_type = zipfile.ZIP_DEFLATED
-                zf.writestr(data, individualFile['fileData'])
-        memory_file.seek(0)
-        return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
+        if result != None:
+            with zipfile.ZipFile(memory_file, 'w') as zf:
+                files = result['files']
+                for individualFile in files:
+                    data = zipfile.ZipInfo(individualFile['fileName'])
+                    data.date_time = time.localtime(time.time())[:6]
+                    data.compress_type = zipfile.ZIP_DEFLATED
+                    zf.writestr(data, individualFile['fileData'])
+            memory_file.seek(0)
+            return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
+        else:
+            return 'No such capsule with that identifier/password exists'
     return render_template('download.html')
 
 
