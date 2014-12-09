@@ -86,7 +86,10 @@ def downloadFiles():
 @app.route("/landing",methods=['GET','POST'])
 def landing():
     if 'username' in request.cookies.keys():
-        return render_template('landing.html')
+        username = request.cookies['username']
+        mongo = MongoDAO('localhost',27017)
+        capsuleNames = mongo.getAllCapsuleNamesForUser(username)
+        return render_template('landing.html',my_list = capsuleNames)
     else:
         resp = make_response(redirect(url_for('login')))
         resp.set_cookie('redirect','landing')
