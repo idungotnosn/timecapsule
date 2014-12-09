@@ -1,0 +1,6 @@
+TODOS:
+	- Stop crashing when try to grab a capsule not in DB on the claim page. RESOLVED
+	- Chnage list font color to be same as rest of site. RESOLVED
+	- Sign up text needs to be same color as rest of site. RESOLVED
+	- Add landing page for logged in users. 
+   	- Navigation to home for capsule list. 
