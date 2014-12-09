@@ -55,13 +55,11 @@ def signup():
 
 @app.route("/dlcap",methods=['GET','POST'])
 def downloadFiles():
-    print request.cookies['username']
     if request.method == 'POST':
         mongo = MongoDAO('localhost',27017)
         identifier = request.form['CapsuleName']
         password = request.form['CapsulePassword']
         result = mongo.getCapsuleByIdentifier(identifier,password)
-        files = result['files']
         memory_file = BytesIO()
         with zipfile.ZipFile(memory_file, 'w') as zf:
             files = result['files']
@@ -83,6 +81,7 @@ def handleFiles():
             identifier = request.form['CapsuleName']
             password = request.form['CapsulePassword']
             username = request.cookies['username']
+            #print str(request.files)
             mongo.insertNewCapsule(identifier,password,request.files, username)
             return render_template('success.html')
         else:
