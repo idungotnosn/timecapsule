@@ -2,13 +2,13 @@
 
 <title>TimeCapsule_home</title>
 <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='capsule.css') }}">
-<body class="background_solid">
+<body class="backgroud_solid">
 	<div class="center">
 		<div class="vert_space">
-			<form action="/files" action="GET">
+			<form action="/files" method="GET">
   			<button type="submit" class="btn" name="submit" value="get_files">Pack Capsule</button>
 			</form>
-			<form action="/getcaps" action="GET">
+			<form action="/getcaps" method="GET">
 			<button type="submit" class="btn" name="submit" value="get_claims">Claim Capsule</button>
 			</form>	
 		</div>

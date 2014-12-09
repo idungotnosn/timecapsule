@@ -61,10 +61,6 @@ input[type="text"]
   	background: #3cb0fd;
   	text-decoration: none;
 }
-.form_btn:hover {
-	background: #3cb0fd;
-  	text-decoration: none;
-}
 
 .vert_space{
    margin-bottom: 10px;

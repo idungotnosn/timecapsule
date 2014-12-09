@@ -22,10 +22,18 @@ input[type="text"]
 
 .font{
 	font-family:Arial;
-	color: #ffffff;
-	font-size: 60px;
+	font-size: 15px;
 	padding: 12px 20px 10px 20px;
   	text-decoration: none;
+	color:#ffffff;
+}
+
+.font2{
+	font-family:Arial;
+	font-size: 15px;
+	padding: 12px 20px 10px 20px;
+  	text-decoration: none;
+	color:#000000;
 }
 
 .btn:hover {
@@ -45,7 +53,7 @@ input[type="text"]
 }
 
 .background_solid{
-	background: #FFFFFF;
+	background: #D3D3D3;
 }
 
 tr.spaceUnder > td

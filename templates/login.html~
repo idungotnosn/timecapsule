@@ -1,7 +1,7 @@
 <!doctype html>
-<title>TimeCapsule</title>
+<title>TimeCapsule_login</title>
 <link rel="stylesheet" type="text/css" href="capsule.css">
-<body class="background_solid">
+<body>
 	<div class="center">
 	<p class="font"> Login </p>
 	<form action="Place_Action_Here">
