@@ -5,11 +5,13 @@ from werkzeug.security import generate_password_hash, \
 import pickle
 
 class MongoDAO:
+
     def __init__(self, uri):
         self.client = MongoClient(uri)
         self.db = self.client['timecapsule']
         self.capsules = self.db['Timecapsules']
         self.users = self.db['users']
+        self.BASE_URL = 'localhost:5000/'
 
     def getCapsuleByIdentifier(self,identifier, password):
         returnedCapsules = self.capsules.find({"identifier":identifier,"password":password})
@@ -32,6 +34,19 @@ class MongoDAO:
         for capsule in userCapsules:
             result.append(capsule['identifier'])
         return result
+
+    def getAllCapsuleNamesAndLinksForUserJSON(self, username):
+        JSON = {}
+        JSON['username'] = username
+        userCapsules = self.capsules.find({"username":username})
+        count = 0
+        for capsule in userCapsules:
+            count = count+1
+            capsuleDict = {}
+            capsuleDict['identifier'] = capsule['identifier']
+            capsuleDict['URL'] = self.BASE_URL+'dlcapuserJSON?username='+username+'&identifier='+capsule['identifier']
+            JSON['capsule'+str(count)] = capsuleDict
+        return JSON
 
     def insertNewCapsule(self, identifier, password, files, username):
         JSON = {}
@@ -75,11 +90,6 @@ class MongoDAO:
             return check_password_hash(foundUser['password'],unhashedPassword)
         else:
             return False
-        
-        
-if __name__ == "__main__":
-    mongo = MongoDAO("localhost",27017)
-    print mongo.getCapsuleByIdentifier('8325255171')
 
 
         #db.Timecapsules.insert({identifier:"identifier1234",password:"password1234",files:[{fileName:"stuff.txt",fileData:"DFOISDSODFIJ"},{fileName:"stuff2.txt",fileData:"FDSOIKFSFDDDFGG"}]})

@@ -1,5 +1,5 @@
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-render_template, flash, send_file, Response, make_response
+render_template, flash, send_file, Response, make_response, jsonify
 from mongoaccess.MongoDAO import MongoDAO
 from io import BytesIO
 from werkzeug.security import generate_password_hash, \
@@ -7,9 +7,11 @@ from werkzeug.security import generate_password_hash, \
 import glob, os, time
 import zipfile
 
-MONGO_URL = os.environ.get('MONGO_URL')
-if not MONGO_URL:
-    MONGO_URL = 'mongodb://localhost:27017/'
+heroku = False
+MONGO_URL = 'mongodb://localhost:27017'
+if heroku:
+    MONGO_URL = 'mongodb://heroku_app32393789:piag5odkk3jg797r836g4u55t7@ds063180.mongolab.com:63180/heroku_app32393789'
+    MONGO_URL = 'mongodb://giliusthunderhead:duckduckgoose@ds063140.mongolab.com:63140/timecapsule'
 
 app = Flask(__name__)
 
@@ -109,6 +111,29 @@ def downloadFilesUser():
             return 'No such capsule with that identifier/password exists'
     return render_template('download.html')
 
+@app.route("/dlcapuserJSON",methods=['GET'])
+def downloadFilesUserJSON():
+    if request.method == 'GET':
+        mongo = MongoDAO(MONGO_URL)
+        identifier = request.args.get('identifier')
+        username = request.args.get('username')
+        result = mongo.getCapsuleByIdentifierAndUser(identifier,username)
+        memory_file = BytesIO()
+        if result != None:
+            with zipfile.ZipFile(memory_file, 'w') as zf:
+                files = result['files']
+                for individualFile in files:
+                    data = zipfile.ZipInfo(individualFile['fileName'])
+                    data.date_time = time.localtime(time.time())[:6]
+                    data.compress_type = zipfile.ZIP_DEFLATED
+                    zf.writestr(data, individualFile['fileData'])
+            memory_file.seek(0)
+            return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
+        else:
+            return 'No such capsule with that identifier/password exists'
+    else:
+        return 'This page was reached in error'
+
 @app.route("/landing",methods=['GET','POST'])
 def landing():
     if 'username' in request.cookies.keys():
@@ -120,6 +145,23 @@ def landing():
         resp = make_response(redirect(url_for('login')))
         resp.set_cookie('redirect','landing')
         return resp
+
+@app.route("/jsonexample",methods=['GET'])
+def jsonExample():
+    return render_template('jsonexample.html')
+
+@app.route("/landingJSON",methods=['GET','POST'])
+def landingJSON():
+    if request.method == 'POST':
+        if 'username' in request.form.keys():
+            username = request.form['username']
+            mongo = MongoDAO(MONGO_URL)
+            capsuleNamesJSON = mongo.getAllCapsuleNamesAndLinksForUserJSON(username)
+            print str(capsuleNamesJSON)
+            return jsonify(capsuleNamesJSON)
+    else:
+        result = {'username':'idungotnosn'}
+        return jsonify(result)
 
 @app.route("/files",methods=['GET','POST'])
 def handleFiles():
@@ -137,5 +179,10 @@ def handleFiles():
             return resp
     return render_template('files.html')
 
+@app.route("/jsonexample")
+def json():
+    f = {'name':'Mike'}
+    return jsonify(**f)
+
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
