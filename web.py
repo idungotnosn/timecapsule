@@ -177,9 +177,9 @@ def handleFiles():
             username = request.cookies['username']
             if request.files.getlist('filesToUpload[]')[0].filename != '':
                 mongo.insertNewCapsule(identifier,password,request.files, username)
+                return render_template('success.html')
             else:
-                return 'Empty capsules cannot be submitted'
-            return render_template('success.html')
+                return render_template('empty.html')
         else:
             resp = make_response(redirect(url_for('login')))
             resp.set_cookie('redirect','files')
