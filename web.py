@@ -83,13 +83,35 @@ def downloadFiles():
             return 'No such capsule with that identifier/password exists'
     return render_template('download.html')
 
+@app.route("/dlcapuser",methods=['GET','POST'])
+def downloadFilesUser():
+    if request.method == 'POST':
+        mongo = MongoDAO('localhost',27017)
+        identifier = request.form['identifier']
+        username = request.form['username']
+        result = mongo.getCapsuleByIdentifierAndUser(identifier,username)
+        memory_file = BytesIO()
+        if result != None:
+            with zipfile.ZipFile(memory_file, 'w') as zf:
+                files = result['files']
+                for individualFile in files:
+                    data = zipfile.ZipInfo(individualFile['fileName'])
+                    data.date_time = time.localtime(time.time())[:6]
+                    data.compress_type = zipfile.ZIP_DEFLATED
+                    zf.writestr(data, individualFile['fileData'])
+            memory_file.seek(0)
+            return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
+        else:
+            return 'No such capsule with that identifier/password exists'
+    return render_template('download.html')
+
 @app.route("/landing",methods=['GET','POST'])
 def landing():
     if 'username' in request.cookies.keys():
         username = request.cookies['username']
         mongo = MongoDAO('localhost',27017)
         capsuleNames = mongo.getAllCapsuleNamesForUser(username)
-        return render_template('landing.html',my_list = capsuleNames)
+        return render_template('landing.html',my_list = capsuleNames, user_name = username)
     else:
         resp = make_response(redirect(url_for('login')))
         resp.set_cookie('redirect','landing')
@@ -103,7 +125,6 @@ def handleFiles():
             identifier = request.form['CapsuleName']
             password = request.form['CapsulePassword']
             username = request.cookies['username']
-            #print str(request.files)
             mongo.insertNewCapsule(identifier,password,request.files, username)
             return render_template('success.html')
         else:

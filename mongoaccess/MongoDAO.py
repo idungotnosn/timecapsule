@@ -17,6 +17,12 @@ class MongoDAO:
             return capsule
         return None
 
+    def getCapsuleByIdentifierAndUser(self,identifier, username):
+        returnedCapsules = self.capsules.find({"identifier":identifier,"username":username})
+        for capsule in returnedCapsules:
+            return capsule
+        return None
+
     def getAllCapsuleNamesForUser(self, username):
         JSON = {}
         JSON['username'] = username
