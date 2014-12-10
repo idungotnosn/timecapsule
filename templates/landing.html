@@ -30,6 +30,9 @@ function post(path, params, method) {
     {% endfor %}
 	</ul>
 	</div>
-<a class="form_btn" href="/logout">Logout</a>
+	<form method="get" action="/">
+				<input class="container" type="image" id="myimage" src="{{ url_for('static', filename='arrow_left.png') }}" />
+			</form>
+		<a class="form_btn" href="/logout">Logout</a>
 </body>
 </html>
