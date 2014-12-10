@@ -179,10 +179,5 @@ def handleFiles():
             return resp
     return render_template('files.html')
 
-@app.route("/jsonexample")
-def json():
-    f = {'name':'Mike'}
-    return jsonify(**f)
-
 if __name__ == "__main__":
     app.run(debug=True)
