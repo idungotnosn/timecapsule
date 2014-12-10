@@ -7,6 +7,10 @@ from werkzeug.security import generate_password_hash, \
 import glob, os, time
 import zipfile
 
+MONGO_URL = os.environ.get('MONGO_URL')
+if not MONGO_URL:
+    MONGO_URL = 'mongodb://localhost:27017/'
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -18,7 +22,7 @@ def login():
     if request.method == 'POST':
         username = request.form['Username']
         password = request.form['Password']
-        mongo = MongoDAO('localhost',27017)
+        mongo = MongoDAO(MONGO_URL)
         validPassword = mongo.checkUserInputs(username,password)
         if validPassword:
             if 'redirect' in request.cookies.keys() and request.cookies['redirect'] == 'files':
@@ -46,7 +50,7 @@ def signup():
         username = request.form['Username']
         unhashedPassword = request.form['Password']
         email = request.form['Email']
-        mongo = MongoDAO('localhost',27017)
+        mongo = MongoDAO(MONGO_URL)
         if not mongo.userNameAvailable(username):
             return render_template('signupfailure.html')
         mongo.insertNewUser(email,username,unhashedPassword)
@@ -64,7 +68,7 @@ def signup():
 @app.route("/dlcap",methods=['GET','POST'])
 def downloadFiles():
     if request.method == 'POST':
-        mongo = MongoDAO('localhost',27017)
+        mongo = MongoDAO(MONGO_URL)
         identifier = request.form['CapsuleName']
         password = request.form['CapsulePassword']
         result = mongo.getCapsuleByIdentifier(identifier,password)
@@ -86,7 +90,7 @@ def downloadFiles():
 @app.route("/dlcapuser",methods=['GET','POST'])
 def downloadFilesUser():
     if request.method == 'POST':
-        mongo = MongoDAO('localhost',27017)
+        mongo = MongoDAO(MONGO_URL)
         identifier = request.form['identifier']
         username = request.form['username']
         result = mongo.getCapsuleByIdentifierAndUser(identifier,username)
@@ -109,7 +113,7 @@ def downloadFilesUser():
 def landing():
     if 'username' in request.cookies.keys():
         username = request.cookies['username']
-        mongo = MongoDAO('localhost',27017)
+        mongo = MongoDAO(MONGO_URL)
         capsuleNames = mongo.getAllCapsuleNamesForUser(username)
         return render_template('landing.html',my_list = capsuleNames, user_name = username)
     else:
@@ -121,7 +125,7 @@ def landing():
 def handleFiles():
     if request.method == 'POST':
         if 'username' in request.cookies.keys():
-            mongo = MongoDAO('localhost',27017)
+            mongo = MongoDAO(MONGO_URL)
             identifier = request.form['CapsuleName']
             password = request.form['CapsulePassword']
             username = request.cookies['username']

@@ -5,8 +5,8 @@ from werkzeug.security import generate_password_hash, \
 import pickle
 
 class MongoDAO:
-    def __init__(self, host, port):
-        self.client = MongoClient(host,port)
+    def __init__(self, uri):
+        self.client = MongoClient(uri)
         self.db = self.client['timecapsule']
         self.capsules = self.db['Timecapsules']
         self.users = self.db['users']
