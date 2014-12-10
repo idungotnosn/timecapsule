@@ -3,4 +3,5 @@ TODOS:
 	- Chnage list font color to be same as rest of site. RESOLVED
 	- Sign up text needs to be same color as rest of site. RESOLVED
 	- Add landing page for logged in users. 
+	- Add logout button. RESOLVED
    	- Navigation to home for capsule list. 
