@@ -26,6 +26,8 @@
 		<form method="get" action="/">
 				<input class="container" type="image" id="myimage" src="{{ url_for('static', filename='arrow_left.png') }}" />
 			</form>
+        {% if logged_in == True %}
 		<a class="form_btn" href="/logout">Logout</a>
+        {% endif %}
     	</body>	
 </html>
