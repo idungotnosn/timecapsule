@@ -17,7 +17,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return render_template('mainsite.html')
+    loggedIn = 'username' in request.cookies.keys()
+    return render_template('mainsite.html',logged_in=loggedIn)
 
 @app.route("/login",methods=['GET','POST'])
 def login():

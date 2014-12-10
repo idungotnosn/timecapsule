@@ -19,5 +19,8 @@
             </form>	
 		</div>
 	</div>
+        {% if logged_in == True %}
+		<a class="form_btn" href="/logout">Logout</a>
+        {% endif %}
 </body>
 
