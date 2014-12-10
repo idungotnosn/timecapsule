@@ -17,7 +17,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return render_template('mainsite.html')
+    loggedIn = 'username' in request.cookies.keys()
+    return render_template('mainsite.html',logged_in=loggedIn)
 
 @app.route("/login",methods=['GET','POST'])
 def login():
@@ -87,7 +88,10 @@ def downloadFiles():
             return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
         else:
             return 'No such capsule with that identifier/password exists'
-    return render_template('download.html')
+    if 'username' not in request.cookies.keys():
+        return render_template('download.html',logged_in=False)
+    else:
+        return render_template('download.html',logged_in=True)
 
 @app.route("/dlcapuser",methods=['GET','POST'])
 def downloadFilesUser():
@@ -177,12 +181,8 @@ def handleFiles():
             resp = make_response(redirect(url_for('login')))
             resp.set_cookie('redirect','files')
             return resp
-    return render_template('files.html')
-
-@app.route("/jsonexample")
-def json():
-    f = {'name':'Mike'}
-    return jsonify(**f)
+    loggedIn = 'username' in request.cookies.keys()
+    return render_template('files.html',logged_in=loggedIn)
 
 if __name__ == "__main__":
     app.run(debug=True)
