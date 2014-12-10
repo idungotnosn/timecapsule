@@ -1,4 +1,4 @@
-Cython==0.20.1post0
+Cython==0.20.1
 Flask==0.11-dev
 Jinja2==2.7.3
 Mako==0.9.1
