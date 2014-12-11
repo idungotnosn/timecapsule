@@ -87,7 +87,7 @@ def downloadFiles():
             memory_file.seek(0)
             return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
         else:
-            return 'No such capsule with that identifier/password exists'
+            return render_template('not_here.html')
     if 'username' not in request.cookies.keys():
         return render_template('download.html',logged_in=False)
     else:
@@ -134,7 +134,7 @@ def downloadFilesUserJSON():
             memory_file.seek(0)
             return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
         else:
-            return 'No such capsule with that identifier/password exists'
+            return render_template('not_here.html')
     else:
         return 'This page was reached in error'
 
@@ -173,8 +173,6 @@ def handleFiles():
         if 'username' in request.cookies.keys():
             mongo = MongoDAO(MONGO_URL)
             identifier = request.form['CapsuleName']
-            if mongo.containsCapsuleWithIdentifier(identifier):
-                return 'A capsule already exists with that name.  Try again.'
             password = request.form['CapsulePassword']
             username = request.cookies['username']
             if request.files.getlist('filesToUpload[]')[0].filename != '':
