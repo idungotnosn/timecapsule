@@ -87,7 +87,7 @@ def downloadFiles():
             memory_file.seek(0)
             return send_file(memory_file, attachment_filename='capsule.zip', as_attachment=True)
         else:
-            return 'No such capsule with that identifier/password exists'
+            return render_template('not_here.html')
     if 'username' not in request.cookies.keys():
         return render_template('download.html',logged_in=False)
     else:
