@@ -3,6 +3,9 @@
 <title>TimeCapsule_home</title>
 <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='capsule.css') }}">
 <body class="background_solid">
+        {% if logged_in == True %}
+		<a class="form_btn" href="/logout">Logout</a>
+        {% endif %}
 	<div class="center">
 		<div class="vert_space">
 			<form action="/files" method="GET">
@@ -19,8 +22,5 @@
             </form>	
 		</div>
 	</div>
-        {% if logged_in == True %}
-		<a class="form_btn" href="/logout">Logout</a>
-        {% endif %}
 </body>
 

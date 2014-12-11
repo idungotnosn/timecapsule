@@ -1,6 +1,12 @@
 <html>
 	<link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='capsule.css') }}">
 	<body class="background_solid">
+		<form method="get" action="/">
+				<input class="container"type="image" id="myimage" src="{{ url_for('static', filename='arrow_left.png') }}" />
+			</form>
+        {% if logged_in == True %}
+		<a class="form_btn" href="/logout">Logout</a>
+        {% endif %}
 		<div class="center">
 			<form method="post" action="/dlcap" enctype="multipart/form-data" onsubmit="return this.CapsuleName.value!='' && this.CapsulePassword.value!=''">		
 				<p class="form_font"> Capsule Name:</p>
@@ -13,12 +19,6 @@
 			
 		</div>
 		<div>
-		<form method="get" action="/">
-				<input class="container"type="image" id="myimage" src="{{ url_for('static', filename='arrow_left.png') }}" />
-			</form>
 		</div>
-        {% if logged_in == True %}
-		<a class="form_btn" href="/logout">Logout</a>
-        {% endif %}
 	</body>
 </html>
