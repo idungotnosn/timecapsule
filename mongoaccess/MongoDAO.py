@@ -19,6 +19,12 @@ class MongoDAO:
             return capsule
         return None
 
+    def containsCapsuleWithIdentifier(self,identifier):
+        returnedCapsules = self.capsules.find({"identifier":identifier})
+        for capsule in returnedCapsules:
+            return True
+        return False
+
     def getCapsuleByIdentifierAndUser(self,identifier, username):
         returnedCapsules = self.capsules.find({"identifier":identifier,"username":username})
         for capsule in returnedCapsules:
