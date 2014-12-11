@@ -5,6 +5,9 @@ TODOS:
 	- Add landing page for logged in users. RESOLVED
 	- Add logout button. RESOLVED
    	- Navigation to home for capsule list. RESOLVED
-	- Don't allow users to submit empty capsules. 
-	- Don't allow user to have multiple capsules with the same name. 
- 	- Make login context sensitive. 
+	- Don't allow users to submit empty capsules. RESOLVED
+	- Don't allow user to have multiple capsules with the same name. RESOLVED 
+ 	- Make login context sensitive. RESOLVED
+	- Fix font issue with signup. RESOLVED
+	- Fix empty capsule list issue. RESOLVED
+	- Address scrolling issues. RESOLVED
