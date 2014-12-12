@@ -174,7 +174,7 @@ def handleFiles():
             mongo = MongoDAO(MONGO_URL)
             identifier = request.form['CapsuleName']
             if mongo.containsCapsuleWithIdentifier(identifier):
-                return 'A capsule already exists with that name.  Try again.'
+                return render_template('nametaken.html')
             password = request.form['CapsulePassword']
             username = request.cookies['username']
             if request.files.getlist('filesToUpload[]')[0].filename != '':
